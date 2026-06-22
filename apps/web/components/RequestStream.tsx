@@ -2,7 +2,6 @@
 
 import type { RateLimitEvent } from '@repo/shared';
 
-/** A scrolling wall of recent decisions — green allowed, red blocked. */
 export function RequestStream({ events }: { events: RateLimitEvent[] }) {
   const recent = events.slice(-90);
 

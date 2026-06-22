@@ -1,14 +1,10 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { Redis } from 'ioredis';
 import { REDIS } from '../../redis/redis.module';
-import {
-  RateLimitStore,
-  StoreDecision,
-} from '../domain/rate-limit-store.port';
+import { RateLimitStore, StoreDecision } from '../domain/rate-limit-store.port';
 import { ConsumeParams } from '../domain/token-bucket';
 import { TOKEN_BUCKET_LUA } from './token-bucket.lua';
 
-/** Signature of the custom command we register on the client. */
 interface TokenBucketCommand {
   tokenBucket(
     key: string,
@@ -19,10 +15,6 @@ interface TokenBucketCommand {
   ): Promise<[number, string]>;
 }
 
-/**
- * Distributed store: a single atomic Lua script does the whole decision in
- * Redis, so concurrent requests across instances can't double-spend tokens.
- */
 @Injectable()
 export class RedisStore implements RateLimitStore, OnModuleInit {
   private readonly prefix = 'rl:';
@@ -44,11 +36,9 @@ export class RedisStore implements RateLimitStore, OnModuleInit {
 
   async consume(key: string, params: ConsumeParams): Promise<StoreDecision> {
     const cost = params.cost ?? 1;
-    const now = Date.now();
-
     const [allowedFlag, tokensStr] = await this.scripted.tokenBucket(
       this.prefix + key,
-      now,
+      Date.now(),
       params.capacity,
       params.refillPerSec,
       cost,

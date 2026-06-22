@@ -5,20 +5,16 @@ import { useEffect, useRef, useState } from 'react';
 interface Props {
   capacity: number;
   refillPerSec: number;
-  /** Tokens remaining at `since` (epoch ms) — the last known truth from the server. */
   remaining: number;
   since: number;
 }
 
-/**
- * Vertical bucket gauge. Between server events it estimates the refill locally
- * with requestAnimationFrame so the level rises smoothly instead of jumping.
- */
 export function TokenBucketGauge({ capacity, refillPerSec, remaining, since }: Props) {
   const [tokens, setTokens] = useState(remaining);
   const stateRef = useRef({ remaining, since });
   stateRef.current = { remaining, since };
 
+  // Estimate the refill between server events so the level rises smoothly.
   useEffect(() => {
     let raf = 0;
     const tick = () => {

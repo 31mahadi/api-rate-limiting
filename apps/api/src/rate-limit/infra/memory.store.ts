@@ -1,14 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import {
-  RateLimitStore,
-  StoreDecision,
-} from '../domain/rate-limit-store.port';
+import { RateLimitStore, StoreDecision } from '../domain/rate-limit-store.port';
 import { BucketState, ConsumeParams, consume } from '../domain/token-bucket';
 
-/**
- * In-process store — correct only within a single instance.
- * Used in tests (and as a fallback), it reuses the exact domain algorithm.
- */
+// Single-process store for tests and local runs without Redis.
 @Injectable()
 export class MemoryStore implements RateLimitStore {
   private readonly buckets = new Map<string, BucketState>();

@@ -9,7 +9,6 @@ import { AppModule } from './app.module';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
-  const logger = new Logger('Bootstrap');
 
   app.use(helmet());
 
@@ -20,7 +19,6 @@ async function bootstrap(): Promise<void> {
 
   app.enableCors({
     origin: origins.length > 0 ? origins : true,
-    // The browser can only read these response headers if we expose them.
     exposedHeaders: [
       RateLimitHeaders.Limit,
       RateLimitHeaders.Remaining,
@@ -28,12 +26,11 @@ async function bootstrap(): Promise<void> {
     ],
   });
 
-  // Drain in-flight work and close Redis on SIGTERM/SIGINT.
   app.enableShutdownHooks();
 
   const port = config.get<number>('PORT') ?? 3000;
   await app.listen(port, '0.0.0.0');
-  logger.log(`API listening on :${port}`);
+  new Logger('Bootstrap').log(`API listening on :${port}`);
 }
 
 void bootstrap();

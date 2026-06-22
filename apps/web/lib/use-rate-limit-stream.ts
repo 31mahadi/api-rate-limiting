@@ -10,10 +10,6 @@ export interface StreamState {
   connected: boolean;
 }
 
-/**
- * Subscribes to the API's SSE stream and keeps a rolling buffer of decisions
- * for this session. EventSource auto-reconnects, so transient drops self-heal.
- */
 export function useRateLimitStream(filterKey: string, max = 90): StreamState {
   const [events, setEvents] = useState<RateLimitEvent[]>([]);
   const [latest, setLatest] = useState<RateLimitEvent | null>(null);

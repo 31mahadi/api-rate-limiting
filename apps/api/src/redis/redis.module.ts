@@ -8,10 +8,8 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Redis } from 'ioredis';
 
-/** DI token for the shared ioredis client. */
 export const REDIS = 'REDIS_CLIENT';
 
-/** Quits the Redis connection on shutdown so containers drain cleanly. */
 @Injectable()
 class RedisLifecycle implements OnApplicationShutdown {
   constructor(@Inject(REDIS) private readonly client: Redis) {}

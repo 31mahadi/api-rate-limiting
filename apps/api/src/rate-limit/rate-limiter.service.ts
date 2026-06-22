@@ -1,15 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { RateLimitConfig, RateLimitDecision } from '@repo/shared';
-import {
-  RateLimitStore,
-  RATE_LIMIT_STORE,
-} from './domain/rate-limit-store.port';
+import { RateLimitStore, RATE_LIMIT_STORE } from './domain/rate-limit-store.port';
 import { RateLimitEventBus } from './rate-limit.events';
 
-/**
- * Orchestrates a limiter decision: ask the store, publish the event for the
- * live dashboard, and return the decision to the guard.
- */
 @Injectable()
 export class RateLimiterService {
   constructor(

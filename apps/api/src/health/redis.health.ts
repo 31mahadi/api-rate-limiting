@@ -7,7 +7,6 @@ import {
 import { Redis } from 'ioredis';
 import { REDIS } from '../redis/redis.module';
 
-/** Readiness depends on Redis — a `PING` round-trip gates "ready". */
 @Injectable()
 export class RedisHealthIndicator extends HealthIndicator {
   constructor(@Inject(REDIS) private readonly client: Redis) {
@@ -16,8 +15,7 @@ export class RedisHealthIndicator extends HealthIndicator {
 
   async isHealthy(key: string): Promise<HealthIndicatorResult> {
     try {
-      const pong = await this.client.ping();
-      const ok = pong === 'PONG';
+      const ok = (await this.client.ping()) === 'PONG';
       const result = this.getStatus(key, ok);
       if (ok) return result;
       throw new HealthCheckError('Redis ping failed', result);

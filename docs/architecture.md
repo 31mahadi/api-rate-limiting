@@ -34,7 +34,7 @@ The domain has no imports from Nest, Redis, or Express — so it unit-tests with
 
 ## Request flow
 1. Browser fires `GET /api/work` with an `x-demo-session` header (one bucket per visitor).
-2. Guard resolves config (route `@RateLimit()` override → env defaults) and the bucket key.
+2. Guard resolves the bucket config (from env) and the bucket key.
 3. `RateLimiterService` calls the store; Redis runs the Lua script atomically and returns `{allowed, tokens}`.
 4. The decision is published to the event bus and returned; the guard sets headers / 429.
 5. The dashboard receives the decision over SSE and animates the gauge, stream, and chart.

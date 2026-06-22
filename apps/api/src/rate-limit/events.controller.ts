@@ -11,13 +11,11 @@ export class EventsController {
     private readonly config: ConfigService,
   ) {}
 
-  /** Live stream of every limiter decision — the dashboard subscribes here. */
   @Sse('events')
   events(): Observable<MessageEvent> {
     return this.bus.stream().pipe(map((event) => ({ data: event })));
   }
 
-  /** The active bucket config, so the dashboard can scale the gauge correctly. */
   @Get('config')
   rateLimitConfig(): RateLimitConfig {
     return {

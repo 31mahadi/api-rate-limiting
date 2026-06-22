@@ -12,11 +12,6 @@ interface Bucket {
   rejected: number;
 }
 
-/**
- * Allowed vs throttled throughput per second over a sliding 30s window.
- * Green = served, red = rejected. The red band appears once the incoming rate
- * exceeds the refill rate — the visual proof of the limit.
- */
 export function ThroughputChart({ events }: { events: RateLimitEvent[] }) {
   const [nowSec, setNowSec] = useState(() => Math.floor(Date.now() / 1000));
 
@@ -32,8 +27,7 @@ export function ThroughputChart({ events }: { events: RateLimitEvent[] }) {
   const start = nowSec - WINDOW_SECONDS + 1;
 
   for (const e of events) {
-    const sec = Math.floor(e.ts / 1000);
-    const idx = sec - start;
+    const idx = Math.floor(e.ts / 1000) - start;
     if (idx >= 0 && idx < WINDOW_SECONDS) {
       if (e.allowed) buckets[idx].allowed += 1;
       else buckets[idx].rejected += 1;
@@ -43,7 +37,6 @@ export function ThroughputChart({ events }: { events: RateLimitEvent[] }) {
   const max = Math.max(1, ...buckets.map((b) => b.allowed + b.rejected));
   const bw = W / WINDOW_SECONDS;
   const scale = (n: number) => (n / max) * (H - 10);
-
   const hasData = buckets.some((b) => b.allowed + b.rejected > 0);
 
   return (
@@ -57,14 +50,7 @@ export function ThroughputChart({ events }: { events: RateLimitEvent[] }) {
           return (
             <g key={i}>
               <rect x={x} y={H - aH} width={bw - 2} height={aH} fill="var(--green)" rx="1" />
-              <rect
-                x={x}
-                y={H - aH - rH}
-                width={bw - 2}
-                height={rH}
-                fill="var(--red)"
-                rx="1"
-              />
+              <rect x={x} y={H - aH - rH} width={bw - 2} height={rH} fill="var(--red)" rx="1" />
             </g>
           );
         })}
