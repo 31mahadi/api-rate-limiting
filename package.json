@@ -1,0 +1,21 @@
+{
+  "name": "api-rate-limiting",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A distributed API rate limiter you can watch work — NestJS token-bucket + live Next.js visualization.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "up": "docker compose up --build",
+    "down": "docker compose down -v",
+    "build:shared": "npm run build -w @repo/shared",
+    "test": "npm run test -w @repo/api",
+    "typecheck": "npm run build:shared && npm run typecheck -w @repo/api && npm run typecheck -w @repo/web",
+    "simulate": "docker compose run --rm k6 run /scripts/load.js"
+  }
+}
