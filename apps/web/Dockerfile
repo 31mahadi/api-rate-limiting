@@ -11,6 +11,8 @@ RUN npm ci
 # The API base URL is inlined into the client bundle at build time.
 ARG NEXT_PUBLIC_API_URL=http://localhost:3000
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+# Enables standalone output + monorepo file tracing (see next.config.mjs).
+ENV DOCKER_BUILD=1
 
 COPY tsconfig.base.json ./
 COPY packages/shared packages/shared
