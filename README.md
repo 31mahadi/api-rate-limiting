@@ -12,9 +12,9 @@ core concept _visible_.
 | | |
 |---|---|
 | **Stack** | NestJS · TypeScript · Redis · Next.js · SSE · npm workspaces |
-| **Run** | `docker compose up --build` — single Docker infra (redis + api + web) |
-| **Web** | http://localhost:5173 |
-| **API** | http://localhost:3000 |
+| **Live demo** | **https://api-rate-limiting-api.vercel.app** |
+| **Live API** | https://api-rate-limiting-7g0s.onrender.com |
+| **Run locally** | `docker compose up --build` — single Docker infra (web :5173 · api :3000 · redis) |
 | **Simulate** | `npm run simulate` — k6 load test (runs in Docker) |
 
 ## Quick start
@@ -48,7 +48,9 @@ throttled (429): 392  (78% of requests)
 Response headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, and `Retry-After` (on 429), all
 CORS-exposed so the browser can read them.
 
-> _TODO: drop a GIF of the dashboard going red here, and the deployed URLs (Upstash + Render/Fly + Vercel)._
+Live at **[api-rate-limiting-api.vercel.app](https://api-rate-limiting-api.vercel.app)** — drag the
+slider past 5/s and watch it throttle. _(The API is on Render's free tier, which sleeps after ~15 min
+idle, so the first request wakes it in a few seconds.)_ _TODO: add a short dashboard GIF._
 
 ## Deploy
 
