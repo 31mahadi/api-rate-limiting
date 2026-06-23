@@ -1,5 +1,7 @@
 # api-rate-limiting
 
+[![ci](https://github.com/31mahadi/api-rate-limiting/actions/workflows/ci.yml/badge.svg)](https://github.com/31mahadi/api-rate-limiting/actions/workflows/ci.yml)
+
 > **A distributed API rate limiter you can _watch_ work.**
 > A Redis token-bucket limiter in **NestJS**, with a live **Next.js** dashboard that visualizes the
 > bucket draining/refilling and requests flipping red (`429`) the instant traffic crosses the limit.

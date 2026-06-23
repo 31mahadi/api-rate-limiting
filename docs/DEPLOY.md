@@ -55,6 +55,17 @@ repos, and per-app PaaS deploys. You edit a secret once in Doppler and it syncs 
 
 Done. Live demo at the Vercel URL.
 
+## Automation — what runs on every push (all free)
+After the one-time linking above, the pipeline is hands-off:
+- **GitHub Actions** (`.github/workflows/ci.yml`) — typecheck, unit + Testcontainers integration tests,
+  and a Docker build, on every push/PR. Free for public repos.
+- **Render** — `autoDeploy: true` in `render.yaml` redeploys the API on every push to `main`.
+- **Vercel** — its native git integration redeploys the web app on every push.
+- **Doppler** — its Render/Vercel integrations keep env in sync; no dashboard edits.
+
+The only thing that isn't automatable is the first link (creating the projects / connecting accounts),
+because that's where the credentials are established. Everything after a push is automatic.
+
 ## Notes
 - Render free web services **spin down after ~15 min idle**; the first request (and the SSE stream)
   cold-starts in a few seconds. Fine for a demo. For always-on, swap Render for a small Fly Machine.
