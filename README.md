@@ -48,6 +48,11 @@ CORS-exposed so the browser can read them.
 
 > _TODO: drop a GIF of the dashboard going red here, and the deployed URLs (Upstash + Render/Fly + Vercel)._
 
+## Deploy
+
+Free, per-app PaaS with one source of truth for env (Doppler → Vercel + Render, shared Upstash
+Redis). Full runbook in [`docs/DEPLOY.md`](./docs/DEPLOY.md).
+
 ## How it works
 
 See [`docs/architecture.md`](./docs/architecture.md). Key decisions:
