@@ -9,20 +9,26 @@ repos, and per-app PaaS deploys. You edit a secret once in Doppler and it syncs 
             └───────┬───────────────────────────────┬────────────┘
             sync    │                                │ sync
                     ▼                                ▼
-            Vercel (web)                       Render (api)  ──► Upstash Redis (shared)
+            Vercel (web)                       Render (api)  ──► Upstash Redis (shared w/ portfolio)
             NEXT_PUBLIC_API_URL                REDIS_URL, CORS_ORIGIN, RATE_LIMIT_*
 ```
 
 ## One-time shared setup (reused by every repo)
-1. **Upstash Redis** — create one free database. Copy its `rediss://…` URL. All demos share it,
-   namespaced by key prefix (this repo uses `rl:`).
+1. **Upstash Redis** — reuse the portfolio's existing database; the `REDIS_URL` is already in
+   `Portfolio/.env`. Demos share it, namespaced by key prefix (this repo uses `rl:`), so keys never
+   collide. No new account or database needed.
 2. **Doppler** — create an account (free Developer plan). Install the CLI: `brew install dopplerhq/cli/doppler`.
+
+> ⚠️ **Load tests stay local.** Upstash's free tier has a shared **~500K commands/day** cap across
+> the whole account. Keep the **live demo** on the shared Upstash (interactive slider traffic is
+> light), but run the **k6 load test locally** against the Docker Redis (`npm run simulate`) so it
+> never eats the portfolio's quota. The proof numbers in the README come from the local run anyway.
 
 ## Per-repo setup (this repo as the template)
 
 ### 1. Doppler project
 - New project **`api-rate-limiting`**, config **`prd`**. Add secrets:
-  - `REDIS_URL` = your Upstash `rediss://…` URL
+  - `REDIS_URL` = the portfolio's Upstash `rediss://…` URL (copy from `Portfolio/.env`)
   - `RATE_LIMIT_CAPACITY` = `10`
   - `RATE_LIMIT_REFILL_PER_SEC` = `5`
   - `CORS_ORIGIN` = _(fill after Vercel deploy)_
@@ -58,7 +64,7 @@ Done. Live demo at the Vercel URL.
 ## Reusable pattern for the other repos
 Every showcase repo follows the same 5 steps:
 1. One Doppler project (`<repo-name>`), config `prd`.
-2. Shared `REDIS_URL` / `DATABASE_URL` from the single Upstash / Neon account (namespaced).
+2. Reuse the portfolio's Upstash / Supabase (`REDIS_URL` / `DATABASE_URL`, namespaced per repo); run load-heavy sims locally.
 3. API → Render blueprint + Doppler→Render sync.
 4. Web → Vercel + Doppler→Vercel sync.
 5. Cross-link `NEXT_PUBLIC_API_URL` ↔ `CORS_ORIGIN`.
