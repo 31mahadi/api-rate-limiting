@@ -18,8 +18,8 @@ Built the first cut, fully runnable via a single Docker infra.
 ### Verified
 - Capacity-10 burst → exactly **10× 200 then 10× 429**, with `Retry-After`.
 - k6 at **25 req/s vs 5/s refill** → ~5.5 served/s (tracks refill), **78% throttled**, limiter engaged.
+- Testcontainers: **100 concurrent requests → exactly 20 allowed** on a capacity-20 bucket (no double-spend).
 
 ### Next
-- Deploy: Upstash Redis + API on Render/Fly + web on Vercel; capture a dashboard GIF for the README.
-- Integration test with Testcontainers asserting no double-spend under concurrency.
+- Deploy: reuse the portfolio's Upstash + API on Render + web on Vercel; capture a dashboard GIF.
 - Stretch: UI toggle to contrast token-bucket vs fixed-window boundary burst.
