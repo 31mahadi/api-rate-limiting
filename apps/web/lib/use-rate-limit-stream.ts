@@ -4,18 +4,21 @@ import { useEffect, useRef, useState } from 'react';
 import type { RateLimitEvent } from '@repo/shared';
 import { API_URL } from './api';
 
+export type StreamEvent = RateLimitEvent & { seq: number };
+
 export interface StreamState {
-  events: RateLimitEvent[];
+  events: StreamEvent[];
   latest: RateLimitEvent | null;
   connected: boolean;
 }
 
 export function useRateLimitStream(filterKey: string, max = 90): StreamState {
-  const [events, setEvents] = useState<RateLimitEvent[]>([]);
+  const [events, setEvents] = useState<StreamEvent[]>([]);
   const [latest, setLatest] = useState<RateLimitEvent | null>(null);
   const [connected, setConnected] = useState(false);
   const filterRef = useRef(filterKey);
   filterRef.current = filterKey;
+  const seqRef = useRef(0);
 
   useEffect(() => {
     const source = new EventSource(`${API_URL}/api/events`);
@@ -27,7 +30,7 @@ export function useRateLimitStream(filterKey: string, max = 90): StreamState {
       if (event.key !== filterRef.current) return;
       setLatest(event);
       setEvents((prev) => {
-        const next = [...prev, event];
+        const next = [...prev, { ...event, seq: seqRef.current++ }];
         return next.length > max ? next.slice(next.length - max) : next;
       });
     };

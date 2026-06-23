@@ -87,7 +87,7 @@ button.toggle.stop { background: transparent; color: var(--text); }
 
 /* Request stream */
 .stream { display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; min-height: 92px; }
-.pip { width: 13px; height: 13px; border-radius: 3px; animation: pop 220ms ease; }
+.pip { flex: 0 0 auto; width: 13px; height: 13px; border-radius: 3px; animation: pop 220ms ease; }
 .pip.ok { background: var(--green); }
 .pip.no { background: var(--red); }
 @keyframes pop { from { transform: scale(0.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }

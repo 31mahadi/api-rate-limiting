@@ -1,8 +1,8 @@
 'use client';
 
-import type { RateLimitEvent } from '@repo/shared';
+import type { StreamEvent } from '../lib/use-rate-limit-stream';
 
-export function RequestStream({ events }: { events: RateLimitEvent[] }) {
+export function RequestStream({ events }: { events: StreamEvent[] }) {
   const recent = events.slice(-90);
 
   return (
@@ -11,9 +11,9 @@ export function RequestStream({ events }: { events: RateLimitEvent[] }) {
         {recent.length === 0 ? (
           <span className="empty-note">Start traffic to see requests…</span>
         ) : (
-          recent.map((e, i) => (
+          recent.map((e) => (
             <span
-              key={`${e.ts}-${i}`}
+              key={e.seq}
               className={`pip ${e.allowed ? 'ok' : 'no'}`}
               title={`${e.allowed ? '200 OK' : '429 Too Many'} · ${e.remaining.toFixed(1)} left`}
             />
