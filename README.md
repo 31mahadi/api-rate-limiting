@@ -9,6 +9,8 @@
 Part of my backend showcase series — backend-heavy, with a real frontend whose job is to make the
 core concept _visible_.
 
+![Live dashboard: the token bucket drains and requests flip to 429 once traffic crosses the limit](docs/demo.gif)
+
 | | |
 |---|---|
 | **Stack** | NestJS · TypeScript · Redis · Next.js · SSE · npm workspaces |
@@ -50,7 +52,7 @@ CORS-exposed so the browser can read them.
 
 Live at **[api-rate-limiting-api.vercel.app](https://api-rate-limiting-api.vercel.app)** — drag the
 slider past 5/s and watch it throttle. _(The API is on Render's free tier, which sleeps after ~15 min
-idle, so the first request wakes it in a few seconds.)_ _TODO: add a short dashboard GIF._
+idle, so the first request wakes it in a few seconds.)_
 
 ## Deploy
 
