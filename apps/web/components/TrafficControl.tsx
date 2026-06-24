@@ -6,6 +6,7 @@ interface Props {
   refillPerSec: number;
   onRateChange: (rate: number) => void;
   onToggle: () => void;
+  onScenario: (rate: number) => void;
 }
 
 export function TrafficControl({
@@ -14,12 +15,24 @@ export function TrafficControl({
   refillPerSec,
   onRateChange,
   onToggle,
+  onScenario,
 }: Props) {
-  const overLimit = rate > refillPerSec;
-
   return (
     <div className="panel control">
       <h2>Traffic</h2>
+      <p className="caption">Try a scenario — or set your own rate with the slider.</p>
+
+      <div className="scenarios">
+        <button className="scenario" onClick={() => onScenario(3)}>
+          😌 Calm
+          <br />3/s · under limit
+        </button>
+        <button className="scenario spike" onClick={() => onScenario(40)}>
+          🌊 Spike
+          <br />40/s · over limit
+        </button>
+      </div>
+
       <label htmlFor="rate">Request rate</label>
       <div className="rate">
         {rate}
@@ -37,9 +50,8 @@ export function TrafficControl({
         {running ? 'Stop traffic' : 'Start traffic'}
       </button>
       <p className="hint" style={{ marginTop: 14 }}>
-        Sustained limit is <b>{refillPerSec}/s</b>. Push the rate above it and watch the bucket
-        drain and requests turn red.{' '}
-        {overLimit && running ? '— you are over the limit now.' : ''}
+        The server allows <b>{refillPerSec}/s</b>. Below that, everything passes; above it, the bucket
+        drains and extra requests turn red.
       </p>
     </div>
   );

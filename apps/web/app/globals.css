@@ -98,3 +98,32 @@ button.toggle.stop { background: transparent; color: var(--text); }
 /* Chart */
 .chart svg { width: 100%; height: 160px; display: block; }
 .empty-note { color: var(--muted); font-size: 13px; font-style: italic; }
+
+/* Teaching layer */
+.explainer { margin-bottom: 18px; }
+.explainer p { color: var(--muted); line-height: 1.55; margin: 0 0 12px; font-size: 14px; }
+.explainer .analogy { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin: 4px 0 14px; }
+.explainer .analogy strong { color: var(--text); display: block; margin-bottom: 6px; }
+.explainer .analogy p { margin: 0; color: var(--muted); }
+.explainer b { color: var(--text); }
+.terms { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--muted); }
+.terms b { color: var(--accent); font-family: var(--mono); }
+
+.caption { color: var(--muted); font-size: 12.5px; line-height: 1.5; margin: 0 0 14px; }
+.caption b { color: var(--text); }
+
+.narration { display: flex; align-items: flex-start; gap: 10px; border-radius: 12px; padding: 14px 16px; font-size: 14.5px; line-height: 1.5; border: 1px solid var(--border); background: var(--panel); margin-bottom: 18px; }
+.narration .narration-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; flex: 0 0 auto; background: var(--muted); }
+.narration.ok { border-color: var(--green-dim); background: rgba(46, 204, 113, 0.08); }
+.narration.ok .narration-dot { background: var(--green); }
+.narration.warn { border-color: #7a5b1d; background: rgba(245, 179, 1, 0.09); }
+.narration.warn .narration-dot { background: #f5b301; }
+.narration.danger { border-color: var(--red-dim); background: rgba(255, 93, 93, 0.1); }
+.narration.danger .narration-dot { background: var(--red); }
+
+.scenarios { display: flex; gap: 8px; margin-bottom: 14px; }
+.scenario { flex: 1; padding: 9px 8px; border-radius: 9px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); font-size: 12px; line-height: 1.5; cursor: pointer; transition: border-color 0.15s ease; }
+.scenario:hover { border-color: var(--accent); }
+.scenario.spike:hover { border-color: var(--red); }
+
+.stat .hint { font-size: 10.5px; color: var(--muted); margin-top: 4px; line-height: 1.3; }
